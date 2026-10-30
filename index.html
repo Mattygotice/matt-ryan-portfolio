@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Matt Ryan — short-form video editor and content creator specializing in story-led social video." />
+  <title>Matt Ryan — Short-Form Video Editor</title>
+  <style>
+    :root {
+      --ink: #16191f;
+      --paper: #f6f1e8;
+      --paper-2: #ebe4d8;
+      --coral: #ff624a;
+      --blue: #3155d8;
+      --muted: #686b71;
+      --line: rgba(22, 25, 31, .16);
+      --white: #fffdf8;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+    a { color: inherit; }
+    img { display: block; max-width: 100%; }
+    .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(246, 241, 232, .92);
+      backdrop-filter: blur(16px);
+    }
+    .nav {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .wordmark { font-weight: 900; letter-spacing: -.04em; text-decoration: none; font-size: 1.15rem; }
+    .nav-links { display: flex; gap: 22px; align-items: center; font-weight: 700; font-size: .88rem; }
+    .nav-links a { text-decoration: none; }
+    .nav-links a:last-child { background: var(--ink); color: var(--white); padding: 10px 15px; border-radius: 999px; }
+
+    .hero {
+      padding: 86px 0 72px;
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 50px;
+      align-items: end;
+    }
+    .eyebrow {
+      margin: 0 0 17px;
+      color: var(--blue);
+      font-size: .78rem;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      max-width: 900px;
+      font-size: clamp(3.5rem, 8vw, 7.6rem);
+      line-height: .87;
+      letter-spacing: -.075em;
+    }
+    h1 span { color: var(--coral); }
+    .hero-copy { padding-bottom: 8px; }
+    .hero-copy p { margin: 0 0 26px; font-size: clamp(1.05rem, 2vw, 1.34rem); color: #3f4248; }
+    .button-row { display: flex; flex-wrap: wrap; gap: 12px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 20px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      font-weight: 850;
+      text-decoration: none;
+      transition: transform .2s ease, background .2s ease, color .2s ease;
+    }
+    .button:hover { transform: translateY(-2px); }
+    .button.primary { background: var(--ink); color: var(--white); }
+    .button.secondary:hover { background: var(--ink); color: var(--white); }
+
+    .metrics {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .metric { padding: 28px 0; border-right: 1px solid var(--line); text-align: center; }
+    .metric:last-child { border-right: 0; }
+    .metric strong { display: block; font-size: clamp(1.55rem, 3vw, 2.6rem); line-height: 1; letter-spacing: -.05em; }
+    .metric span { display: block; margin-top: 8px; color: var(--muted); font-size: .75rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+
+    section { padding: 92px 0; }
+    .section-head { display: grid; grid-template-columns: .5fr 1fr; gap: 40px; margin-bottom: 42px; }
+    .section-head h2 { margin: 0; font-size: clamp(2.4rem, 5vw, 4.9rem); line-height: .95; letter-spacing: -.06em; }
+    .section-head p { margin: 0; max-width: 720px; align-self: end; color: var(--muted); font-size: 1.05rem; }
+
+    .work-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+    .project {
+      position: relative;
+      grid-column: span 6;
+      min-height: 510px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: var(--white);
+      text-decoration: none;
+      box-shadow: 0 14px 42px rgba(30, 26, 20, .07);
+    }
+    .project.wide { grid-column: span 12; min-height: 460px; }
+    .project-media { position: absolute; inset: 0; overflow: hidden; }
+    .project-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
+    .project:hover .project-media img { transform: scale(1.035); }
+    .project-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 12, 17, .04) 28%, rgba(10, 12, 17, .9) 100%); }
+    .brand-visual {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 77% 22%, rgba(255, 98, 74, .88), transparent 33%),
+        radial-gradient(circle at 22% 78%, rgba(49, 85, 216, .88), transparent 35%),
+        #181a20;
+    }
+    .brand-visual::before {
+      content: "VitaeVisual";
+      color: white;
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 900;
+      letter-spacing: -.07em;
+      transform: rotate(-3deg);
+    }
+    .reel-visual {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(135deg, rgba(8, 11, 19, .3), rgba(8, 11, 19, .88)),
+        radial-gradient(circle at 25% 22%, rgba(255, 98, 74, .92), transparent 30%),
+        radial-gradient(circle at 78% 74%, rgba(49, 85, 216, .92), transparent 34%),
+        #141720;
+    }
+    .reel-visual::before {
+      content: "EARLIER CREATIVE REEL";
+      max-width: 760px;
+      padding: 0 30px;
+      color: white;
+      font-size: clamp(2.4rem, 7vw, 6.2rem);
+      font-weight: 900;
+      letter-spacing: -.06em;
+      line-height: .9;
+      text-align: center;
+    }
+    .project-content { position: absolute; inset: auto 0 0; z-index: 2; padding: 28px; color: white; }
+    .project-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .tag { display: inline-flex; padding: 6px 10px; border-radius: 999px; background: rgba(255,255,255,.16); backdrop-filter: blur(8px); font-size: .72rem; font-weight: 850; letter-spacing: .05em; text-transform: uppercase; }
+    .project h3 { margin: 0 0 8px; font-size: clamp(1.75rem, 3vw, 2.7rem); letter-spacing: -.045em; line-height: 1; }
+    .project p { margin: 0; max-width: 650px; color: rgba(255,255,255,.78); }
+    .play { position: absolute; top: 24px; right: 24px; z-index: 3; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: var(--white); color: var(--ink); font-weight: 900; }
+
+    .story { background: var(--ink); color: var(--white); }
+    .story .section-head p { color: rgba(255,255,255,.65); }
+    .story-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 22px; align-items: stretch; }
+    .story-card { border: 1px solid rgba(255,255,255,.16); border-radius: 28px; padding: 34px; background: rgba(255,255,255,.04); }
+    .story-card h3 { margin: 0 0 20px; font-size: clamp(1.8rem, 3vw, 3rem); letter-spacing: -.045em; line-height: 1; }
+    .story-card p { color: rgba(255,255,255,.72); font-size: 1.02rem; }
+    .skill-list { list-style: none; padding: 0; margin: 26px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
+    .skill-list li { border: 1px solid rgba(255,255,255,.22); padding: 10px 13px; border-radius: 999px; font-size: .82rem; font-weight: 800; }
+    .proof-card { background: var(--coral); color: var(--ink); display: flex; flex-direction: column; justify-content: space-between; }
+    .proof-card p { color: rgba(22,25,31,.74); }
+    .proof-number { margin-top: 50px; font-size: clamp(4.5rem, 10vw, 8rem); font-weight: 950; letter-spacing: -.09em; line-height: .8; }
+
+    .about-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; align-items: start; }
+    .about-grid h2 { margin: 0; font-size: clamp(2.6rem, 5vw, 5rem); letter-spacing: -.065em; line-height: .95; }
+    .about-copy { font-size: 1.18rem; color: #3d4045; }
+    .about-copy p:first-child { margin-top: 0; }
+    .note { margin-top: 24px; padding: 20px; border-left: 5px solid var(--blue); background: var(--paper-2); font-size: .95rem; }
+
+    footer { border-top: 1px solid var(--line); padding: 54px 0 64px; }
+    .footer-grid { display: flex; justify-content: space-between; align-items: end; gap: 36px; }
+    .footer-grid h2 { margin: 0 0 14px; font-size: clamp(2.2rem, 5vw, 4.5rem); letter-spacing: -.06em; line-height: .95; }
+    .footer-grid p { margin: 0; color: var(--muted); }
+    .socials { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    @media (max-width: 860px) {
+      .nav-links a:not(:last-child) { display: none; }
+      .hero, .section-head, .story-grid, .about-grid { grid-template-columns: 1fr; }
+      .hero { padding-top: 62px; }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .metric:nth-child(2) { border-right: 0; }
+      .metric:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .project, .project.wide { grid-column: span 12; min-height: 500px; }
+      .footer-grid { align-items: flex-start; flex-direction: column; }
+    }
+    @media (max-width: 540px) {
+      .shell { width: min(100% - 24px, 1180px); }
+      .hero { padding: 52px 0; gap: 26px; }
+      section { padding: 68px 0; }
+      .project, .project.wide { min-height: 440px; border-radius: 22px; }
+      .project-content { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell nav">
+      <a class="wordmark" href="#top">MATT RYAN / EDITOR</a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="shell hero">
+      <div>
+        <p class="eyebrow">Short-form video editor · Content creator</p>
+        <h1>Clean cuts.<br><span>Real stories.</span><br>Organic reach.</h1>
+      </div>
+      <div class="hero-copy">
+        <p>I turn raw footage, conversations, and everyday moments into social videos people want to finish—and share.</p>
+        <div class="button-row">
+          <a class="button primary" href="#work">Watch selected work</a>
+          <a class="button secondary" href="https://www.tiktok.com/@mattyygoticee" target="_blank" rel="noreferrer">TikTok profile</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="shell metrics" aria-label="Creator results">
+      <div class="metric"><strong>326.9K</strong><span>Top organic TikTok</span></div>
+      <div class="metric"><strong>95.7K</strong><span>TikTok likes</span></div>
+      <div class="metric"><strong>2.8K+</strong><span>TikTok followers</span></div>
+      <div class="metric"><strong>10K</strong><span>Top YouTube Short</span></div>
+    </div>
+
+    <section id="work">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Selected work</h2>
+          <p>A mix of client-facing promotional work and creator-led short-form stories, selected to show range—not just view counts.</p>
+        </div>
+
+        <div class="work-grid">
+          <a class="project wide" href="https://drive.google.com/file/d/1l7vaHrGC7uNB7tfPcfX2_02wmu7VActD/view" target="_blank" rel="noreferrer" aria-label="Watch Vitae Visual promotional brand video">
+            <div class="brand-visual" aria-hidden="true"></div>
+            <span class="play" aria-hidden="true">↗</span>
+            <div class="project-content">
+              <div class="project-meta"><span class="tag">Client work</span><span class="tag">Brand promo</span><span class="tag">44 seconds</span></div>
+              <h3>Vitae Visual — Promotional Brand Video</h3>
+              <p>Business-focused promotional edit combining branded graphics, curated footage, music, transitions, and a social call to action.</p>
+            </div>
+          </a>
+
+          <a class="project wide" href="https://drive.google.com/file/d/1zJyu9_WXIaQcizSV4atER9VRP5D-59pp/view" target="_blank" rel="noreferrer" aria-label="Watch Matt Ryan earlier creative reel">
+            <div class="reel-visual" aria-hidden="true"></div>
+            <span class="play" aria-hidden="true">↗</span>
+            <div class="project-content">
+              <div class="project-meta"><span class="tag">Earlier work</span><span class="tag">Creative reel</span><span class="tag">Multi-format source</span></div>
+              <h3>Matt Ryan — Earlier Creative Reel</h3>
+              <p>A fast-moving montage showing creative range across promotional, social, action, and highlight-style edits. Originally produced for a different viewing format, it is included as an earlier example of concepting, clip selection, and visual pacing.</p>
+            </div>
+          </a>
+
+          <a class="project" href="https://www.youtube.com/shorts/z1ebIBKO5po" target="_blank" rel="noreferrer" aria-label="Watch What's your buddy's name">
+            <div class="project-media"><img src="assets/whats-your-buddys-name.png" alt="Creator and gameplay split-screen captioned What's your buddy's name" /></div>
+            <span class="play" aria-hidden="true">▶</span>
+            <div class="project-content">
+              <div class="project-meta"><span class="tag">Story edit</span><span class="tag">Dialogue</span><span class="tag">Captions</span></div>
+              <h3>What’s Your Buddy’s Name?</h3>
+              <p>A creator-led interaction shaped into a complete short story through dialogue selection, pacing, and captions.</p>
+            </div>
+          </a>
+
+          <a class="project" href="https://www.youtube.com/shorts/iPh4p5hnGoY" target="_blank" rel="noreferrer" aria-label="Watch Sorry dude">
+            <div class="project-media"><img src="https://i.ytimg.com/vi/iPh4p5hnGoY/hqdefault.jpg" alt="Creator-led gameplay story from Sorry dude" /></div>
+            <span class="play" aria-hidden="true">▶</span>
+            <div class="project-content">
+              <div class="project-meta"><span class="tag">Mini story</span><span class="tag">Face + gameplay</span></div>
+              <h3>Sorry, Dude</h3>
+              <p>A clean split-screen narrative that turns one unscripted encounter into a concise, watchable story.</p>
+            </div>
+          </a>
+
+          <a class="project wide" href="https://www.youtube.com/shorts/90RobgOew7Q" target="_blank" rel="noreferrer" aria-label="Watch We got em boys">
+            <div class="project-media"><img src="https://i.ytimg.com/vi/90RobgOew7Q/maxresdefault.jpg" alt="Creator-led gameplay short We got em boys" /></div>
+            <span class="play" aria-hidden="true">▶</span>
+            <div class="project-content">
+              <div class="project-meta"><span class="tag">Creator-led</span><span class="tag">10K YouTube views</span><span class="tag">Organic</span></div>
+              <h3>We Got ’Em, Boys</h3>
+              <p>Personality-forward short-form editing with an immediate hook, clean visual hierarchy, and concise pacing.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="story">
+      <div class="shell">
+        <div class="section-head">
+          <h2>How I edit</h2>
+          <p>The goal is never to add the most effects. It is to find the strongest moment, establish the hook quickly, and keep every cut working for the story.</p>
+        </div>
+        <div class="story-grid">
+          <div class="story-card">
+            <h3>Built for attention—without losing the human moment.</h3>
+            <p>I work primarily in CapCut and edit for TikTok, Reels, and YouTube Shorts. My experience includes client promotional work, creator-led storytelling, gameplay narratives, and trend-aware social concepts.</p>
+            <ul class="skill-list" aria-label="Editing skills">
+              <li>CapCut</li><li>Clip selection</li><li>Story pacing</li><li>Clean cuts</li><li>Text overlays</li><li>Music selection</li><li>Vertical video</li><li>Feedback & revisions</li>
+            </ul>
+          </div>
+          <div class="story-card proof-card">
+            <div>
+              <h3>Organic—not purchased.</h3>
+              <p>Audience growth and video performance came from original posting, strong hooks, relatable concepts, and platform-native editing.</p>
+            </div>
+            <div class="proof-number">326.9K</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="shell about-grid">
+        <h2>A practical editor with a creator’s instinct.</h2>
+        <div class="about-copy">
+          <p>I’m Matt Ryan, a Florida-based short-form editor and content creator. I’ve produced promotional work for a career-services company and independently built audiences through gaming and personality-driven social content.</p>
+          <p>I’m comfortable following a creative direction, making thoughtful editing decisions independently, and adjusting a cut based on feedback. I care about clear communication, dependable turnaround, and making footage feel intentional.</p>
+          <div class="note"><strong>Currently:</strong> available for remote part-time and contract editing opportunities. Recent portfolio pieces are paired with earlier client work to show both current platform instincts and real-world experience.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact">
+    <div class="shell footer-grid">
+      <div>
+        <h2>Let’s make the footage count.</h2>
+        <p>Available for short-form social editing and content support.</p>
+      </div>
+      <div class="socials">
+        <a class="button primary" href="https://www.tiktok.com/@mattyygoticee" target="_blank" rel="noreferrer">TikTok</a>
+        <a class="button secondary" href="https://www.youtube.com/@MattyGotIcee" target="_blank" rel="noreferrer">YouTube</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
